@@ -1,0 +1,469 @@
+@startuml
+abstract class BaseSavedRecord {
+    + Id : Guid? <<get>> <<set>>
+    + ActiveId : Guid? <<get>> <<set>>
+    + <<virtual>> DataType : string <<get>>
+    + ETag : string <<get>> <<set>>
+    + CreationDate : DateTime? <<get>> <<set>>
+    + ModificationDate : DateTime? <<get>> <<set>>
+    + ModificationType : ModificationType? <<get>> <<set>>
+    + UserId : string <<get>> <<set>>
+    + TenantId : string <<get>> <<set>>
+}
+
+abstract class BaseSavedEmployeeRecord {
+    + {abstract} EmployeeIdentifier : string <<get>>
+}
+
+abstract class BaseSavedTimecard {
+    + {abstract} PayrollYear : int? <<get>>
+    + {abstract} PeriodNumber : int? <<get>>
+}
+
+class SavedEmployee {
+    + <<override>> EmployeeIdentifier : string <<get>>
+    + EntityInformation : EntityInformation <<get>> <<set>>
+}
+
+class EntityInformation {
+    + EntityIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + IsLegalEntity : bool? <<get>> <<set>>
+    + LegalEntityIdentifier : string <<get>> <<set>>
+    + FederalTaxIdentifier : string <<get>> <<set>>
+    + TimesheetStartDay : DayOfWeek? <<get>> <<set>>
+    + TimesheetDuration : decimal? <<get>> <<set>>
+    + AatrixCustomerIdentifier : string <<get>> <<set>>
+    + W3KindOfPayer : W3KindOfPayer? <<get>> <<set>>
+    + W3KindOfEmployer : W3KindOfEmployer? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedChargeable {
+    + ChargeableInputs : ChargeableInputs <<get>> <<set>>
+}
+
+class ChargeableInputs {
+    + <<const>> ProjectIdKey : string = "ProjectId"
+    + <<const>> CostTypeIdKey : string = "CostTypeId"
+    + <<const>> TaskIdKey : string = "TaskId"
+    + EntityIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + StandardCompensationTableIdentifier : string <<get>> <<set>>
+    + PrevailingCompensationTableIdentifier : string <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedChargeableReportingProperties {
+    + ChargeableReportingProperties : ChargeableReportingProperties <<get>> <<set>>
+}
+
+class ChargeableReportingProperties {
+    + ProjectIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ContractorType : CertifiedReportingContractorType? <<get>> <<set>>
+    + AwardingContractorName : string <<get>> <<set>>
+    + AwardingContractorPhoneNumber : string <<get>> <<set>>
+    + AwardDate : DateTime? <<get>> <<set>>
+    + FederalProjectNumber : string <<get>> <<set>>
+    + StateProjectNumber : string <<get>> <<set>>
+    + LicenseNumber : string <<get>> <<set>>
+    + ContractAmount : decimal? <<get>> <<set>>
+    + EstimatedCompletionDate : DateTime? <<get>> <<set>>
+    + TypeOfWork : string <<get>> <<set>>
+    + PrimeContractorName : string <<get>> <<set>>
+    + PrimeContractorPhoneNumber : string <<get>> <<set>>
+    + PrimeContractorEmailAddress : string <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedCheck {
+    + <<override>> EmployeeIdentifier : string <<get>>
+    + CheckIdentifier : string <<get>>
+    + CheckDate : DateTime? <<get>>
+    + PeriodBeginDate : DateTime? <<get>>
+    + PeriodEndDate : DateTime? <<get>>
+    + SavedCheckType : ServiceModels.CheckType? <<get>>
+    + SavedCheckStatus : ServiceModels.CheckStatus? <<get>>
+    + WasPosted : bool? <<get>>
+    + TimecardsWereExported : bool? <<get>>
+    + WasPaid : bool? <<get>>
+}
+
+class SavedCompensationTable {
+    + CompensationTable : CompensationTable <<get>> <<set>>
+}
+
+class CompensationTable <<partial>> {
+    + CompensationTableIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedDefaultWithholdingElections {
+    + WithholdingElections : DefaultWithholdingInputs <<get>> <<set>>
+}
+
+class DefaultWithholdingInputs <<partial>> {
+    + TaxIdentifier : string <<get>> <<set>>
+    + TaxType : TaxType? <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedEmployeeAdditionalInformation {
+    + <<override>> EmployeeIdentifier : string <<get>>
+    + EmployeeAdditionalInformationInputs : EmployeeAdditionalInformationInputs <<get>> <<set>>
+}
+
+class EmployeeAdditionalInformationInputs {
+    + EmployeeIdentifier : string <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+    + EmployeeAdditionalInformationType : EmployeeAdditionalInformationType? <<get>> <<set>>
+    + AdditionalValue : string <<get>> <<set>>
+}
+
+class SavedEmployeeApplicableTaxes {
+    + <<override>> EmployeeIdentifier : string <<get>>
+    + ApplicableTaxes : EmployeeApplicableTaxesInputs <<get>> <<set>>
+}
+
+class EmployeeApplicableTaxesInputs {
+    + EmployeeIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedEmployeeCompensationTable {
+    + <<override>> EmployeeIdentifier : string <<get>>
+    + EmployeeCompensationTable : EmployeeCompensationTable <<get>> <<set>>
+}
+
+class EmployeeCompensationTable <<partial>> {
+    + EmployeeIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + AnnualSalary : decimal? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedEmployeePayModifier {
+    + <<override>> EmployeeIdentifier : string <<get>>
+    + PayModifier : EmployeePayModifierInputs <<get>> <<set>>
+}
+
+class EmployeePayModifierInputs <<partial>> {
+    + PayModifierIdentifier : string <<get>> <<set>>
+    + EmployeeIdentifier : string <<get>> <<set>>
+    + PayModifierType : PayModifierType? <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedEmployeePtoLedger {
+    + <<override>> EmployeeIdentifier : string <<get>>
+    + Ledger : PtoLedger <<get>> <<set>>
+}
+
+class PtoLedger <<partial>> {
+    + EmployeeIdentifier : string <<get>> <<set>>
+    + PtoTypeIdentifier : string <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedEmployeeWithholdingElections {
+    + <<override>> EmployeeIdentifier : string <<get>>
+    + WithholdingElections : EmployeeWithholdingInputs <<get>> <<set>>
+}
+
+class EmployeeWithholdingInputs <<partial>> {
+    + TaxIdentifier : string <<get>> <<set>>
+    + EmployeeIdentifier : string <<get>> <<set>>
+    + TaxType : TaxType? <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedEntityAdditionalInformation {
+    + EntityAdditionalInformation : EntityAdditionalInformationInputs <<get>> <<set>>
+}
+
+class EntityAdditionalInformationInputs <<partial>> {
+    + EntityIdentifier : string <<get>> <<set>>
+    + EntityAdditionalInformationType : EntityAdditionalInformationType? <<get>> <<set>>
+    + AdditionalValue : string <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedEntityInformation {
+    + EntityInformation : EntityInformation <<get>> <<set>>
+}
+
+class SavedJournalEntryMappingDefinition {
+    + Definition : JournalEntryMappingDefinition <<get>> <<set>>
+}
+
+class JournalEntryMappingDefinition <<partial>> {
+    + JournalEntryMappingDefinitionIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedLaborCodeMappingDefinition {
+    + Definition : LaborCodeMappingDefinition <<get>> <<set>>
+}
+
+class LaborCodeMappingDefinition <<partial>> {
+    + EntityIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + IncludeEmployeePosition : bool? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedLimit {
+    + Limit : LimitInputs <<get>> <<set>>
+}
+
+class LimitInputs <<partial>> {
+    + LimitIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+    + WeeklyLimit : decimal? <<get>> <<set>>
+    + AnnualLimit : decimal? <<get>> <<set>>
+}
+
+class SavedLock {
+    + Lock : Lock <<get>> <<set>>
+}
+
+class Lock <<partial>> {
+    + LockType : LockType? <<get>> <<set>>
+    + Identifier : string <<get>> <<set>>
+    + IsLocked : bool? <<get>> <<set>>
+    + LastLockedDate : DateTime? <<get>> <<set>>
+}
+
+class SavedPayGroup {
+    + PayGroup : PayGroupInputs <<get>> <<set>>
+}
+
+class PayGroupInputs <<partial>> {
+    + PayGroupIdentifier : string <<get>> <<set>>
+    + AnnualPayPeriods : int? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedPayModifier {
+    + PayModifier : PayModifierInputs <<get>> <<set>>
+}
+
+class PayModifierInputs <<partial>> {
+    + PayModifierIdentifier : string <<get>> <<set>>
+    + PayModifierType : PayModifierType? <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedPtoAccrualSchedule {
+    + Schedule : PtoAccrualSchedule <<get>> <<set>>
+}
+
+class PtoAccrualSchedule <<partial>> {
+    + PtoAccrualScheduleIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + PtoTypeIdentifier : string <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedPtoType {
+    + PtoType : PtoType <<get>> <<set>>
+}
+
+class PtoType <<partial>> {
+    + PtoTypeIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + PtoYearBeginsOnEmployeeAnniversary : bool? <<get>> <<set>>
+    + PtoYearBeginMonth : decimal? <<get>> <<set>>
+    + PtoYearBeginDay : decimal? <<get>> <<set>>
+    + WriteOffBalanceAtPtoYearEnd : bool? <<get>> <<set>>
+    + AllowNegativeBalance : bool? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedSequence {
+    + SequenceName : string <<get>> <<set>>
+    + Count : int <<get>> <<set>>
+}
+
+class SavedTax {
+    + Tax : TaxInputs <<get>> <<set>>
+}
+
+class TaxInputs <<partial>> {
+    + TaxIdentifier : string <<get>> <<set>>
+    + TaxCategoryIdentifier : string <<get>> <<set>>
+    + TaxType : TaxType? <<get>> <<set>>
+    + State : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedTaxReciprocityRule { 
+    + TaxReciprocityRule : TaxReciprocityRule <<get>> <<set>>
+}
+
+class TaxReciprocityRule <<partial>> {
+    + ResidentTaxIdentifier : string <<get>> <<set>>
+    + ResidentTaxCategoryIdentifier : string <<get>> <<set>>
+    + WorkTaxIdentifier : string <<get>> <<set>>
+    + WorkTaxCategoryIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+    + TaxReciprocityAction : TaxReciprocityAction? <<get>> <<set>>
+}
+
+class SavedTenantConfigurationInputs {
+    + Configuration : TenantConfigurationInputs <<get>> <<set>>
+}
+
+class TenantConfigurationInputs <<partial>> {
+    + PayrollJournalIdentifier : string <<get>> <<set>>
+    + CheckJournalEntryDescription : string <<get>> <<set>>
+    + PostJournalEntriesAsDraft : bool? <<get>> <<set>>
+    + ExportTimecardsAsDraft : bool? <<get>> <<set>>
+    + ExpenseReportDescription : string <<get>> <<set>>
+    + ExpenseReportExpenseType : string <<get>> <<set>>
+    + PostExpenseReportAsDraft : bool? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+class SavedTimecard {
+    + <<override>> PayrollYear : int? <<get>>
+    + <<override>> PeriodNumber : int? <<get>>
+    + Timecard : TimecardEntry <<get>> <<set>>
+}
+
+class TimecardEntry <<partial>> {
+    + EmployeeIdentifier : string <<get>> <<set>>
+    + PayGroupIdentifier : string <<get>> <<set>>
+    + PayrollYear : int? <<get>> <<set>>
+    + PeriodNumber : int? <<get>> <<set>>
+    + TimecardStatus : TimecardStatus? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+    + WasSuccessful : bool? <<get>> <<set>>
+    + ErrorMessage : string <<get>> <<set>>
+}
+
+class SavedTrade {
+    + Trade : Trade <<get>> <<set>>
+}
+
+class Trade <<partial>> {
+    + TradeIdentifier : string <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+    + CertifiedReportingWorkClassificationIdentifier : string <<get>> <<set>>
+    + CertifiedReportingWorkClassificationCode : string <<get>> <<set>>
+}
+
+class SavedUnionLocal {
+    + UnionLocal : UnionLocal <<get>> <<set>>
+}
+
+class UnionLocal <<partial>> {
+    + UnionLocalIdentifier : string <<get>> <<set>>
+    + EffectiveDate : DateTime? <<get>> <<set>>
+    + ExpirationDate : DateTime? <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+    + TradeIdentifier : string <<get>> <<set>>
+    + StandardCompensationTableIdentifier : string <<get>> <<set>>
+}
+
+class SavedWorkedHours {
+    + WorkedHours : WorkedHoursInformation <<get>> <<set>>
+}
+
+class WorkedHoursInformation <<partial>> {
+    + Identifier : string <<get>> <<set>>
+    + PremiumFactor : decimal? <<get>> <<set>>
+    + PtoTypeIdentifier : string <<get>> <<set>>
+    + ExportAsIdentifier : string <<get>> <<set>>
+    + DefaultRateWorkedHoursIdentifier : string <<get>> <<set>>
+    + RevisionNumber : decimal? <<get>> <<set>>
+}
+
+SavedChargeable --> ChargeableInputs
+SavedChargeableReportingProperties --> ChargeableReportingProperties
+SavedEmployee --> "EntityInformation"
+SavedCompensationTable --> "CompensationTable"
+SavedDefaultWithholdingElections --> "DefaultWithholdingInputs"
+SavedEmployeeAdditionalInformation --> "EmployeeAdditionalInformationInputs"
+SavedEmployeeApplicableTaxes --> "EmployeeApplicableTaxesInputs"
+SavedEmployeeCompensationTable --> "EmployeeCompensationTable"
+SavedEmployeePayModifier --> "EmployeePayModifierInputs"
+SavedEmployeePtoLedger --> "PtoLedger"
+SavedEmployeeWithholdingElections --> "EmployeeWithholdingInputs"
+SavedEntityAdditionalInformation --> "EntityAdditionalInformationInputs"
+SavedEntityInformation --> "EntityInformation"
+SavedJournalEntryMappingDefinition --> "JournalEntryMappingDefinition"
+SavedLaborCodeMappingDefinition --> "LaborCodeMappingDefinition"
+SavedLimit --> "LimitInputs"
+SavedLock --> "Lock"
+SavedPayGroup --> "PayGroupInputs"
+SavedPayModifier --> "PayModifierInputs"
+SavedPtoAccrualSchedule --> "PtoAccrualSchedule"
+SavedPtoType --> "PtoType"
+SavedTax --> "TaxInputs"
+SavedTaxReciprocityRule --> "TaxReciprocityRule"
+SavedTenantConfigurationInputs --> "TenantConfigurationInputs"
+SavedTimecard --> "TimecardEntry"
+SavedTrade --> "Trade"
+SavedUnionLocal --> "UnionLocal"
+SavedWorkedHours --> "WorkedHoursInformation"
+
+BaseSavedEmployeeRecord <|-- SavedEmployee
+BaseSavedRecord <|-- SavedChargeable
+
+SavedTimecard --|> BaseSavedTimecard
+
+SavedEmployeeApplicableTaxes --|> BaseSavedEmployeeRecord
+SavedEmployeeAdditionalInformation --|> BaseSavedEmployeeRecord
+SavedCheck --|> BaseSavedEmployeeRecord
+SavedEmployeeCompensationTable --|> BaseSavedEmployeeRecord
+SavedEmployeePayModifier --|> BaseSavedEmployeeRecord
+SavedEmployeePtoLedger --|> BaseSavedEmployeeRecord
+SavedEmployeeWithholdingElections --|> BaseSavedEmployeeRecord
+
+SavedCompensationTable --|> BaseSavedRecord
+BaseSavedTimecard --|> BaseSavedRecord
+BaseSavedEmployeeRecord --|> BaseSavedRecord
+SavedChargeableReportingProperties --|> BaseSavedRecord
+SavedDefaultWithholdingElections --|> BaseSavedRecord
+SavedEntityAdditionalInformation --|> BaseSavedRecord
+SavedJournalEntryMappingDefinition --|> BaseSavedRecord
+SavedLaborCodeMappingDefinition --|> BaseSavedRecord
+SavedLimit --|> BaseSavedRecord
+SavedLock --|> BaseSavedRecord
+SavedPayGroup --|> BaseSavedRecord
+SavedPayModifier --|> BaseSavedRecord
+SavedPtoAccrualSchedule --|> BaseSavedRecord
+SavedPtoType --|> BaseSavedRecord
+SavedSequence --|> BaseSavedRecord
+SavedTax --|> BaseSavedRecord
+SavedTaxReciprocityRule --|> BaseSavedRecord
+SavedTenantConfigurationInputs --|> BaseSavedRecord
+SavedTrade --|> BaseSavedRecord
+SavedUnionLocal --|> BaseSavedRecord
+SavedWorkedHours --|> BaseSavedRecord
+@enduml
